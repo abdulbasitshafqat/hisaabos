@@ -33,6 +33,9 @@ function App() {
       if (session) {
         setIsOnboarded(true);
         fetchInitialData();
+      } else {
+        // Force logout if no session found (clears stale local storage)
+        setIsOnboarded(false);
       }
     });
 

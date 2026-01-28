@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CheckCircle, FileText, Building2, Briefcase, Users, ArrowRight, Star } from 'lucide-react';
 
 import { PublicNavbar } from '@/components/layout/PublicNavbar';
@@ -168,6 +168,101 @@ export function LandingPage() {
                                 </p>
                             </CardContent>
                         </Card>
+                    </div>
+                </div>
+            </section>
+
+            {/* Pricing Section */}
+            <section id="pricing" className="py-20 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-white mb-4">Transparent Pricing for Everyone</h2>
+                        <p className="text-xl text-slate-300">Choose the plan that fits your business stage</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            {
+                                name: 'Dukaan',
+                                price: 0,
+                                period: 'Forever Free',
+                                description: 'Perfect for small shops and startups',
+                                features: ['1 User', 'Manual Khata', 'Basic POS', '100 Products', 'Email Support'],
+                                cta: 'Start Free',
+                                popular: false,
+                                gradient: 'from-slate-800 to-slate-900'
+                            },
+                            {
+                                name: 'Karobar',
+                                price: 2500,
+                                period: 'per month',
+                                description: 'For growing businesses ready to scale',
+                                features: ['Unlimited Users', 'Courier Integration', 'WhatsApp Invoicing', 'Shopify Sync', 'Priority Support'],
+                                cta: 'Start 14-Day Trial',
+                                popular: true,
+                                gradient: 'from-emerald-600 to-emerald-700'
+                            },
+                            {
+                                name: 'Empire',
+                                price: 5000,
+                                period: 'per month',
+                                description: 'Enterprise-grade financial control',
+                                features: ['Full Accounting', 'Bank Reconciliation', 'FBR Tax Compliance', 'Manufacturing', 'Dedicated Manager'],
+                                cta: 'Contact Sales',
+                                popular: false,
+                                gradient: 'from-purple-600 to-purple-700'
+                            }
+                        ].map((plan, index) => (
+                            <Card
+                                key={index}
+                                className={`relative backdrop-blur-lg border-2 ${plan.popular
+                                    ? 'border-emerald-600 shadow-2xl shadow-emerald-600/20 scale-105'
+                                    : 'border-slate-700'
+                                    } transition-all hover:scale-105 bg-gradient-to-br ${plan.gradient} bg-opacity-50`}
+                            >
+                                {plan.popular && (
+                                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                                        <div className="bg-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                                            ⭐ Most Popular
+                                        </div>
+                                    </div>
+                                )}
+
+                                <CardHeader className="text-center pb-8">
+                                    <CardTitle className="text-3xl font-bold text-white mb-2">{plan.name}</CardTitle>
+                                    <CardDescription className="text-slate-300">{plan.description}</CardDescription>
+                                    <div className="mt-6">
+                                        <div className="flex items-baseline justify-center gap-2">
+                                            <span className="text-5xl font-bold text-white">
+                                                Rs. {plan.price.toLocaleString()}
+                                            </span>
+                                        </div>
+                                        <p className="text-slate-300 text-sm mt-2">{plan.period}</p>
+                                    </div>
+                                </CardHeader>
+
+                                <CardContent className="space-y-6">
+                                    <ul className="space-y-3">
+                                        {plan.features.map((feature, i) => (
+                                            <li key={i} className="flex items-start gap-3">
+                                                <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                                                <span className="text-slate-200">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    <Button
+                                        onClick={() => navigate('/signup')}
+                                        className={`w-full py-6 text-lg ${plan.popular
+                                            ? 'bg-white text-emerald-600 hover:bg-slate-100'
+                                            : 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-600'
+                                            }`}
+                                    >
+                                        {plan.cta}
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
                 </div>
             </section>
