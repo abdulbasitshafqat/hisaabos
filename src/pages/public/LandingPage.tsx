@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, FileText, Building2, Briefcase, Users, ArrowRight, Star } from 'lucide-react';
 
+import { PublicNavbar } from '@/components/layout/PublicNavbar';
+
 export function LandingPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -15,29 +17,7 @@ export function LandingPage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950">
             {/* Navigation */}
-            <nav className="fixed top-0 w-full bg-slate-950/80 backdrop-blur-lg border-b border-slate-800 z-50">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center font-bold text-white text-xl">
-                            H
-                        </div>
-                        <span className="text-2xl font-bold text-white">HisaabOS</span>
-                    </div>
-                    <div className="hidden md:flex items-center gap-8">
-                        <a href="#features" className="text-slate-300 hover:text-white transition-colors">Features</a>
-                        <a href="#pricing" className="text-slate-300 hover:text-white transition-colors">Pricing</a>
-                        <a href="#testimonials" className="text-slate-300 hover:text-white transition-colors">Testimonials</a>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Button variant="outline" onClick={() => navigate('/login')} className="border-slate-700 text-white hover:bg-slate-800">
-                            Login
-                        </Button>
-                        <Button onClick={handleGetStarted} className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                            Get Started
-                        </Button>
-                    </div>
-                </div>
-            </nav>
+            <PublicNavbar />
 
             {/* Hero Section */}
             <section className="pt-32 pb-20 px-6">

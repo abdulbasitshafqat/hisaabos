@@ -14,6 +14,8 @@ import { Settings } from './pages/Settings';
 import { Integrations } from './pages/Integrations';
 import { LandingPage } from './pages/public/LandingPage';
 import { PricingPage } from './pages/public/PricingPage';
+import { FeaturesPage } from './pages/public/FeaturesPage';
+import { TestimonialsPage } from './pages/public/TestimonialsPage';
 import { LoginPage } from './pages/public/LoginPage';
 import { SignupPage } from './pages/public/SignupPage';
 
@@ -27,7 +29,9 @@ function App() {
         {!isOnboarded ? (
           <>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
             <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/onboarding" element={<Onboarding />} />

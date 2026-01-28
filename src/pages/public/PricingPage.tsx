@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
 
+import { PublicNavbar } from '@/components/layout/PublicNavbar';
+
 export function PricingPage() {
     const navigate = useNavigate();
 
@@ -68,24 +70,7 @@ export function PricingPage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950">
             {/* Navigation */}
-            <nav className="fixed top-0 w-full bg-slate-950/80 backdrop-blur-lg border-b border-slate-800 z-50">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-                        <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center font-bold text-white text-xl">
-                            H
-                        </div>
-                        <span className="text-2xl font-bold text-white">HisaabOS</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Button variant="outline" onClick={() => navigate('/login')} className="border-slate-700 text-white hover:bg-slate-800">
-                            Login
-                        </Button>
-                        <Button onClick={() => navigate('/signup')} className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                            Get Started
-                        </Button>
-                    </div>
-                </div>
-            </nav>
+            <PublicNavbar />
 
             {/* Hero */}
             <section className="pt-32 pb-12 px-6">
@@ -110,8 +95,8 @@ export function PricingPage() {
                             <Card
                                 key={index}
                                 className={`relative backdrop-blur-lg border-2 ${plan.popular
-                                        ? 'border-emerald-600 shadow-2xl shadow-emerald-600/20 scale-105'
-                                        : 'border-slate-700'
+                                    ? 'border-emerald-600 shadow-2xl shadow-emerald-600/20 scale-105'
+                                    : 'border-slate-700'
                                     } transition-all hover:scale-105 bg-gradient-to-br ${plan.gradient} bg-opacity-50`}
                             >
                                 {plan.popular && (
@@ -148,8 +133,8 @@ export function PricingPage() {
                                     <Button
                                         onClick={() => navigate('/signup')}
                                         className={`w-full py-6 text-lg ${plan.popular
-                                                ? 'bg-white text-emerald-600 hover:bg-slate-100'
-                                                : 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-600'
+                                            ? 'bg-white text-emerald-600 hover:bg-slate-100'
+                                            : 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-600'
                                             }`}
                                     >
                                         {plan.cta}
