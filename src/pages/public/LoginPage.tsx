@@ -1,28 +1,54 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '@/store/useStore';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Mail, Lock, Chrome } from 'lucide-react';
+import { Mail, Lock, Chrome, Loader2 } from 'lucide-react';
 
 export function LoginPage() {
     const navigate = useNavigate();
     const { setIsOnboarded } = useStore();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Mock login - in production, validate with backend
-        setIsOnboarded(true);
-        navigate('/');
+        setIsLoading(true);
+        setError('');
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) {
+            setError(error.message);
+            setIsLoading(false);
+        } else {
+            // Successful login
+            setIsOnboarded(true);
+            navigate('/');
+        }
     };
 
-    const handleGoogleLogin = () => {
-        // Mock Google OAuth
-        setIsOnboarded(true);
-        navigate('/');
+    const handleGoogleLogin = async () => {
+        setIsLoading(true);
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/`
+            }
+        });
+
+        if (error) {
+            setError(error.message);
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -86,6 +112,12 @@ export function LoginPage() {
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-4">
+                        {error && (
+                            <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md flex items-center">
+                                <span className="mr-2">⚠️</span>
+                                {error}
+                            </div>
+                        )}
                         <div>
                             <Label htmlFor="email" className="text-slate-700">Email</Label>
                             <div className="relative mt-1">
@@ -98,6 +130,7 @@ export function LoginPage() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="pl-10 py-6 text-lg"
                                     required
+                                    disabled={isLoading}
                                 />
                             </div>
                         </div>
@@ -119,12 +152,21 @@ export function LoginPage() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="pl-10 py-6 text-lg"
                                     required
+                                    disabled={isLoading}
                                 />
                             </div>
                         </div>
 
-                        <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 py-6 text-lg">
-                            Log In
+                        <Button
+                            type="submit"
+                            className="w-full bg-emerald-600 hover:bg-emerald-700 py-6 text-lg"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Logging in...</>
+                            ) : (
+                                "Log In"
+                            )}
                         </Button>
                     </form>
 

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { TrackingDialog } from '@/components/TrackingDialog';
 import { BulkBookingDialog } from '@/components/BulkBookingDialog';
+import { CreateOrderDialog } from '@/components/CreateOrderDialog';
 import { ShoppingCart, MapPin, Eye, Package, Truck, AlertTriangle, ShieldAlert } from 'lucide-react';
 
 const statusColors: Record<OrderStatus, string> = {
@@ -23,6 +24,7 @@ export function Sales() {
     const [trackingOrder, setTrackingOrder] = useState<typeof orders[0] | null>(null);
     const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
     const [bulkBookingOpen, setBulkBookingOpen] = useState(false);
+    const [createOrderOpen, setCreateOrderOpen] = useState(false);
 
     const handleStatusChange = (orderId: string, newStatus: OrderStatus) => {
         const order = orders.find(o => o.id === orderId);
@@ -83,7 +85,7 @@ export function Sales() {
                             Bulk Book ({selectedOrders.length})
                         </Button>
                     )}
-                    <Button variant="emerald" className="gap-2">
+                    <Button variant="emerald" className="gap-2" onClick={() => setCreateOrderOpen(true)}>
                         <ShoppingCart className="w-4 h-4" />
                         New Order
                     </Button>
@@ -188,8 +190,8 @@ export function Sales() {
                                             </td>
                                             <td className="px-4 py-3">
                                                 <span className={`text-xs px-2 py-1 rounded-full ${order.source === 'shopify' ? 'bg-emerald-100 text-emerald-700' :
-                                                        order.source === 'woocommerce' ? 'bg-blue-100 text-blue-700' :
-                                                            'bg-slate-100 text-slate-700'
+                                                    order.source === 'woocommerce' ? 'bg-blue-100 text-blue-700' :
+                                                        'bg-slate-100 text-slate-700'
                                                     }`}>
                                                     {order.source || 'manual'}
                                                 </span>
@@ -251,6 +253,11 @@ export function Sales() {
                     setSelectedOrders([]);
                 }}
                 selectedOrders={getSelectedOrdersData()}
+            />
+
+            <CreateOrderDialog
+                open={createOrderOpen}
+                onClose={() => setCreateOrderOpen(false)}
             />
         </div>
     );

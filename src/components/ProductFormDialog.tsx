@@ -11,6 +11,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { Loader2 } from 'lucide-react';
 
 
 interface ProductFormDialogProps {
@@ -21,6 +22,7 @@ interface ProductFormDialogProps {
 
 export function ProductFormDialog({ open, onClose, product }: ProductFormDialogProps) {
     const { addProduct, updateProduct } = useAppStore();
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: product?.name || '',
         purchase_price: product?.purchase_price || 0,
@@ -37,7 +39,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
         ? ((formData.retail_price - landedCost) / formData.retail_price * 100).toFixed(1)
         : '0';
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.name) {
@@ -45,23 +47,30 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
             return;
         }
 
-        if (product) {
-            updateProduct(product.id, formData);
-        } else {
-            addProduct(formData);
+        setLoading(true);
+        try {
+            if (product) {
+                await updateProduct(product.id, formData);
+            } else {
+                await addProduct(formData);
+            }
+            onClose();
+            setFormData({
+                name: '',
+                purchase_price: 0,
+                shipping_cost: 0,
+                packaging_cost: 0,
+                retail_price: 0,
+                stock_level: 0,
+                alert_threshold: 5,
+                category: ''
+            });
+        } catch (error) {
+            console.error('Error saving product:', error);
+            alert('Failed to save product. Please try again.');
+        } finally {
+            setLoading(false);
         }
-
-        onClose();
-        setFormData({
-            name: '',
-            purchase_price: 0,
-            shipping_cost: 0,
-            packaging_cost: 0,
-            retail_price: 0,
-            stock_level: 0,
-            alert_threshold: 5,
-            category: ''
-        });
     };
 
     return (
@@ -83,6 +92,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g., Premium Cotton T-Shirt"
+                                disabled={loading}
                             />
                         </div>
 
@@ -93,6 +103,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 value={formData.category}
                                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                 placeholder="e.g., Apparel"
+                                disabled={loading}
                             />
                         </div>
 
@@ -103,6 +114,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 type="number"
                                 value={formData.stock_level}
                                 onChange={(e) => setFormData({ ...formData, stock_level: Number(e.target.value) })}
+                                disabled={loading}
                             />
                         </div>
 
@@ -117,6 +129,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 type="number"
                                 value={formData.purchase_price}
                                 onChange={(e) => setFormData({ ...formData, purchase_price: Number(e.target.value) })}
+                                disabled={loading}
                             />
                         </div>
 
@@ -127,6 +140,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 type="number"
                                 value={formData.shipping_cost}
                                 onChange={(e) => setFormData({ ...formData, shipping_cost: Number(e.target.value) })}
+                                disabled={loading}
                             />
                         </div>
 
@@ -137,6 +151,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 type="number"
                                 value={formData.packaging_cost}
                                 onChange={(e) => setFormData({ ...formData, packaging_cost: Number(e.target.value) })}
+                                disabled={loading}
                             />
                         </div>
 
@@ -158,6 +173,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 type="number"
                                 value={formData.retail_price}
                                 onChange={(e) => setFormData({ ...formData, retail_price: Number(e.target.value) })}
+                                disabled={loading}
                             />
                         </div>
 
@@ -178,6 +194,7 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                                 type="number"
                                 value={formData.alert_threshold}
                                 onChange={(e) => setFormData({ ...formData, alert_threshold: Number(e.target.value) })}
+                                disabled={loading}
                             />
                             <p className="text-xs text-muted-foreground mt-1">
                                 You'll be alerted when stock falls below this level
@@ -186,8 +203,9 @@ export function ProductFormDialog({ open, onClose, product }: ProductFormDialogP
                     </div>
 
                     <DialogFooter>
-                        <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-                        <Button type="submit" variant="emerald">
+                        <Button type="button" variant="outline" onClick={onClose} disabled={loading}>Cancel</Button>
+                        <Button type="submit" variant="emerald" disabled={loading}>
+                            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             {product ? 'Update Product' : 'Add Product'}
                         </Button>
                     </DialogFooter>

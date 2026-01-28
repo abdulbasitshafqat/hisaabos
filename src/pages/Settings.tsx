@@ -94,6 +94,22 @@ export function Settings() {
                     </div>
                 </CardContent>
             </Card>
-        </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Team Management</CardTitle>
+                    <CardDescription>
+                        Invite team members and manage access permissions (Coming Soon with Backend)
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="bg-slate-50 p-6 rounded-lg text-center border border-dashed border-slate-300">
+                        <p className="text-slate-600 mb-2">Multi-user support requires a connected database.</p>
+                        <Button variant="outline" disabled>Invite New User</Button>
+                        <p className="text-xs text-slate-400 mt-2">Connect Supabase to enable</p>
+                    </div>
+                </CardContent>
+            </Card>
+        </div >
     );
 }

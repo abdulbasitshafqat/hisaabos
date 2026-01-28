@@ -19,8 +19,37 @@ import { TestimonialsPage } from './pages/public/TestimonialsPage';
 import { LoginPage } from './pages/public/LoginPage';
 import { SignupPage } from './pages/public/SignupPage';
 
+import { useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useAppStore } from '@/store/appStore';
+
 function App() {
-  const { isOnboarded } = useStore();
+  const { isOnboarded, setIsOnboarded } = useStore();
+  const { fetchInitialData } = useAppStore();
+
+  useEffect(() => {
+    // Check active session & fetch data
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setIsOnboarded(true);
+        fetchInitialData();
+      }
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        setIsOnboarded(true);
+        fetchInitialData();
+      } else {
+        setIsOnboarded(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [setIsOnboarded, fetchInitialData]);
 
   return (
     <Router>
