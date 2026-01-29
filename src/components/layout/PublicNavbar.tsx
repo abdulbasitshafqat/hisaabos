@@ -38,7 +38,7 @@ export function PublicNavbar() {
                     </Button>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Button variant="outline" onClick={() => navigate('/login')} className="hidden sm:flex border-slate-700 text-white hover:bg-slate-800">
+                    <Button variant="ghost" onClick={() => navigate('/login')} className="hidden sm:flex border border-slate-700 text-white hover:bg-slate-800 hover:text-white">
                         Login
                     </Button>
                     <Button onClick={() => navigate('/signup')} className="bg-emerald-600 hover:bg-emerald-700 text-white">
