@@ -96,10 +96,36 @@ export interface BusinessSettings {
     email?: string;
 }
 
+export interface ShopifyConfig {
+    enabled: boolean;
+    shop_url?: string;
+    access_token?: string;
+    last_sync?: string;
+}
+
+export interface WooCommerceConfig {
+    enabled: boolean;
+    store_url?: string;
+    consumer_key?: string;
+    consumer_secret?: string;
+}
+
+export interface CourierConfig {
+    trax_api_key?: string;
+    tcs_username?: string;
+    tcs_password?: string;
+    tcs_api_key?: string;
+    leopards_api_key?: string;
+    postex_api_key?: string;
+    mp_api_key?: string;
+    postex_factoring_enabled?: boolean;
+    postex_service_fee?: number;
+}
+
 export interface IntegrationSettings {
-    shopify?: { enabled: boolean };
-    woocommerce?: { enabled: boolean };
-    courier: { trax_api_key?: string };
+    shopify: ShopifyConfig;
+    woocommerce: WooCommerceConfig;
+    courier: CourierConfig;
 }
 
 // ==================== STORE ====================
@@ -112,6 +138,7 @@ interface AppState {
     projects: Project[];
     adSpends: AdSpend[];
     settings: BusinessSettings;
+    integrations: IntegrationSettings;
     loading: boolean;
     error: string | null;
 
@@ -133,12 +160,20 @@ interface AppState {
     addPerson: (person: Omit<Person, 'id' | 'balance' | 'ledger'>) => Promise<void>;
     updatePerson: (id: string, updates: Partial<Person>) => Promise<void>;
 
+    // Project Actions
+    addProject: (project: Omit<Project, 'id'>) => Promise<void>;
+    updateProject: (id: string, updates: Partial<Project>) => Promise<void>;
+    deleteProject: (id: string) => Promise<void>;
+    getProjectProfitLoss: (projectId: string) => { income: number; expenses: number; profit: number };
+
     // Expense & AdSpend
     addExpense: (expense: Omit<Expense, 'id'>) => Promise<void>;
     addAdSpend: (adSpend: Omit<AdSpend, 'id'>) => Promise<void>;
+    getTotalAdSpend: () => number;
 
     // Settings
     updateSettings: (updates: Partial<BusinessSettings>) => void;
+    updateIntegrations: (updates: Partial<IntegrationSettings>) => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -155,18 +190,24 @@ export const useAppStore = create<AppState>((set, get) => ({
         phone: '',
         email: ''
     },
+    integrations: {
+        shopify: { enabled: false },
+        woocommerce: { enabled: false },
+        courier: {}
+    },
     loading: false,
     error: null,
 
     fetchInitialData: async () => {
         set({ loading: true });
         try {
-            const [products, orders, people, expenses, adSpends] = await Promise.all([
+            const [products, orders, people, expenses, adSpends, projects] = await Promise.all([
                 supabase.from('products').select('*'),
                 supabase.from('orders').select('*'),
                 supabase.from('people').select('*'),
                 supabase.from('expenses').select('*'),
                 supabase.from('ad_spends').select('*'),
+                supabase.from('projects').select('*'),
             ]);
 
             set({
@@ -175,6 +216,7 @@ export const useAppStore = create<AppState>((set, get) => ({
                 people: people.data as Person[] || [],
                 expenses: expenses.data as Expense[] || [],
                 adSpends: adSpends.data as AdSpend[] || [],
+                projects: projects.data as Project[] || [],
                 loading: false
             });
         } catch (error: any) {
@@ -281,6 +323,32 @@ export const useAppStore = create<AppState>((set, get) => ({
         }
     },
 
+    addProject: async (project) => {
+        const { data, error } = await supabase.from('projects').insert([project]).select().single();
+        if (!error && data) {
+            set((state) => ({ projects: [...state.projects, data as Project] }));
+        }
+    },
+
+    updateProject: async (id, updates) => {
+        const { error } = await supabase.from('projects').update(updates).eq('id', id);
+        if (!error) {
+            set((state) => ({ projects: state.projects.map(p => p.id === id ? { ...p, ...updates } : p) }));
+        }
+    },
+
+    deleteProject: async (id) => {
+        const { error } = await supabase.from('projects').delete().eq('id', id);
+        if (!error) {
+            set((state) => ({ projects: state.projects.filter(p => p.id !== id) }));
+        }
+    },
+
+    getProjectProfitLoss: (projectId) => {
+        // Mock calculation
+        return { income: 100000, expenses: 40000, profit: 60000 };
+    },
+
     addExpense: async (expense) => {
         const { data, error } = await supabase.from('expenses').insert([expense]).select().single();
         if (!error && data) {
@@ -295,8 +363,15 @@ export const useAppStore = create<AppState>((set, get) => ({
         }
     },
 
+    getTotalAdSpend: () => {
+        return get().adSpends.reduce((sum, item) => sum + item.amount, 0);
+    },
+
     updateSettings: (updates) => {
         set((state) => ({ settings: { ...state.settings, ...updates } }));
-        // In a real app, save to a 'settings' table in Supabase
+    },
+
+    updateIntegrations: (updates) => {
+        set((state) => ({ integrations: { ...state.integrations, ...updates } }));
     }
 }));

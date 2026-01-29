@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Factory, Plus, Zap, Package, Clock, Settings, AlertCircle } from 'lucide-react';
+import { Factory, Plus, Zap, Package, Clock, Settings } from 'lucide-react';
 import {
     Table,
     TableBody,
