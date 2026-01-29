@@ -100,6 +100,7 @@ export interface ShopifyConfig {
     enabled: boolean;
     shop_url?: string;
     access_token?: string;
+    api_key?: string; // Added to match usage in Integrations.tsx
     last_sync?: string;
 }
 
@@ -108,6 +109,7 @@ export interface WooCommerceConfig {
     store_url?: string;
     consumer_key?: string;
     consumer_secret?: string;
+    last_sync?: string; // Added to match usage in Integrations.tsx
 }
 
 export interface CourierConfig {
