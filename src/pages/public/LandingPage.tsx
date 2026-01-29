@@ -172,101 +172,6 @@ export function LandingPage() {
                 </div>
             </section>
 
-            {/* Pricing Section */}
-            <section id="pricing" className="py-20 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold text-white mb-4">Transparent Pricing for Everyone</h2>
-                        <p className="text-xl text-slate-300">Choose the plan that fits your business stage</p>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {[
-                            {
-                                name: 'Dukaan',
-                                price: 0,
-                                period: 'Forever Free',
-                                description: 'Perfect for small shops and startups',
-                                features: ['1 User', 'Manual Khata', 'Basic POS', '100 Products', 'Email Support'],
-                                cta: 'Start Free',
-                                popular: false,
-                                gradient: 'from-slate-800 to-slate-900'
-                            },
-                            {
-                                name: 'Karobar',
-                                price: 2500,
-                                period: 'per month',
-                                description: 'For growing businesses ready to scale',
-                                features: ['Unlimited Users', 'Courier Integration', 'WhatsApp Invoicing', 'Shopify Sync', 'Priority Support'],
-                                cta: 'Start 14-Day Trial',
-                                popular: true,
-                                gradient: 'from-emerald-600 to-emerald-700'
-                            },
-                            {
-                                name: 'Empire',
-                                price: 5000,
-                                period: 'per month',
-                                description: 'Enterprise-grade financial control',
-                                features: ['Full Accounting', 'Bank Reconciliation', 'FBR Tax Compliance', 'Manufacturing', 'Dedicated Manager'],
-                                cta: 'Contact Sales',
-                                popular: false,
-                                gradient: 'from-purple-600 to-purple-700'
-                            }
-                        ].map((plan, index) => (
-                            <Card
-                                key={index}
-                                className={`relative backdrop-blur-lg border-2 ${plan.popular
-                                    ? 'border-emerald-600 shadow-2xl shadow-emerald-600/20 scale-105'
-                                    : 'border-slate-700'
-                                    } transition-all hover:scale-105 bg-gradient-to-br ${plan.gradient} bg-opacity-50`}
-                            >
-                                {plan.popular && (
-                                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                        <div className="bg-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                                            ⭐ Most Popular
-                                        </div>
-                                    </div>
-                                )}
-
-                                <CardHeader className="text-center pb-8">
-                                    <CardTitle className="text-3xl font-bold text-white mb-2">{plan.name}</CardTitle>
-                                    <CardDescription className="text-slate-300">{plan.description}</CardDescription>
-                                    <div className="mt-6">
-                                        <div className="flex items-baseline justify-center gap-2">
-                                            <span className="text-5xl font-bold text-white">
-                                                Rs. {plan.price.toLocaleString()}
-                                            </span>
-                                        </div>
-                                        <p className="text-slate-300 text-sm mt-2">{plan.period}</p>
-                                    </div>
-                                </CardHeader>
-
-                                <CardContent className="space-y-6">
-                                    <ul className="space-y-3">
-                                        {plan.features.map((feature, i) => (
-                                            <li key={i} className="flex items-start gap-3">
-                                                <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                                                <span className="text-slate-200">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    <Button
-                                        onClick={() => navigate('/signup')}
-                                        className={`w-full py-6 text-lg ${plan.popular
-                                            ? 'bg-white text-emerald-600 hover:bg-slate-100'
-                                            : 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-600'
-                                            }`}
-                                    >
-                                        {plan.cta}
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Testimonials */}
             <section id="testimonials" className="py-20 px-6">
                 <div className="max-w-7xl mx-auto">
@@ -296,6 +201,140 @@ export function LandingPage() {
                                         <p className="text-white font-semibold">{testimonial.name}</p>
                                         <p className="text-slate-400 text-sm">{testimonial.business}</p>
                                     </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Pricing Section */}
+            <section id="pricing" className="py-20 px-6 bg-slate-900/50">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-white mb-4">Simple, Transparent Pricing</h2>
+                        <p className="text-xl text-slate-300">Choose the plan that fits your business stage</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            {
+                                name: 'The Freelancer',
+                                price: 2999,
+                                description: 'For solopreneurs and small retailers',
+                                features: ['Digital Khata (100 customers)', 'One-Click FBR Annex-C', 'Basic Invoicing', 'Bank Reconciliation (1 Account)'],
+                                cta: 'Start Free Trial',
+                                popular: false,
+                                gradient: 'from-slate-800 to-slate-900'
+                            },
+                            {
+                                name: 'The Growth',
+                                price: 7499,
+                                description: 'For scaling E-commerce brands',
+                                features: ['Everything in Freelancer', 'Unlimited Invoicing', 'Full Courier Integration', 'WhatsApp Reminders', 'True Profit Calculator'],
+                                cta: 'Start Free Trial',
+                                popular: true,
+                                gradient: 'from-emerald-600 to-emerald-700'
+                            },
+                            {
+                                name: 'The Enterprise',
+                                price: 19999,
+                                description: 'For manufacturers & agencies',
+                                features: ['Everything in Growth', 'Full Project Costing', 'Multi-user access', 'Priority FBR Support', 'API Access'],
+                                cta: 'Contact Sales',
+                                popular: false,
+                                gradient: 'from-purple-600 to-purple-700'
+                            }
+                        ].map((plan, index) => (
+                            <Card
+                                key={index}
+                                className={`relative backdrop-blur-lg border-2 ${plan.popular
+                                    ? 'border-emerald-600 shadow-2xl shadow-emerald-600/20 scale-105'
+                                    : 'border-slate-700'
+                                    } transition-all hover:scale-105 bg-gradient-to-br ${plan.gradient} bg-opacity-50`}
+                            >
+                                {plan.popular && (
+                                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                                        <div className="bg-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                                            ⭐ MOST POPULAR
+                                        </div>
+                                    </div>
+                                )}
+
+                                <CardHeader className="text-center pb-8">
+                                    <CardTitle className="text-3xl font-bold text-white mb-2">{plan.name}</CardTitle>
+                                    <CardDescription className="text-slate-300">{plan.description}</CardDescription>
+                                    <div className="mt-6">
+                                        <div className="flex items-baseline justify-center gap-2">
+                                            <span className="text-5xl font-bold text-white">
+                                                Rs. {plan.price.toLocaleString()}
+                                            </span>
+                                            <span className="text-slate-400">/mo</span>
+                                        </div>
+                                    </div>
+                                </CardHeader>
+
+                                <CardContent className="space-y-6">
+                                    <ul className="space-y-3">
+                                        {plan.features.map((feature, i) => (
+                                            <li key={i} className="flex items-start gap-3">
+                                                <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                                                <span className="text-slate-200 text-sm">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    <Button
+                                        onClick={() => navigate('/signup')}
+                                        className={`w-full py-6 text-lg ${plan.popular
+                                            ? 'bg-white text-emerald-600 hover:bg-slate-100'
+                                            : 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-600'
+                                            }`}
+                                    >
+                                        {plan.cta}
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+
+                    <div className="text-center mt-12">
+                        <a href="#" className="text-emerald-400 hover:text-emerald-300 underline text-sm">
+                            Need a custom enterprise plan? Contact Sales to discuss.
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="py-20 px-6">
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-4xl font-bold text-white text-center mb-12">
+                        Frequently Asked Questions
+                    </h2>
+                    <div className="space-y-6">
+                        {[
+                            {
+                                q: 'Is my financial data secure?',
+                                a: 'Yes. We use bank-grade 256-bit encryption and store data on secure cloud servers with daily backups. Your privacy is our top priority.'
+                            },
+                            {
+                                q: 'How does FBR compliance work?',
+                                a: 'HisaabOS automatically generates Annex-C reports based on your invoices and expenses. You can download the report and upload it directly to the FBR portal.'
+                            },
+                            {
+                                q: 'Which couriers do you support?',
+                                a: 'We natively integrate with Trax, TCS, and Leopards Courier. You can bulk book orders and print shipping labels directly from the dashboard.'
+                            },
+                            {
+                                q: 'Can I upgrade my plan later?',
+                                a: 'Absolutely. You can start with the Freelancer plan and upgrade to Growth or Enterprise as your business expands. Changes apply immediately.'
+                            }
+                        ].map((faq, i) => (
+                            <Card key={i} className="bg-slate-800/50 border-slate-700 backdrop-blur-lg">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-white font-semibold mb-2 text-lg">{faq.q}</h3>
+                                    <p className="text-slate-300 leading-relaxed">{faq.a}</p>
                                 </CardContent>
                             </Card>
                         ))}
