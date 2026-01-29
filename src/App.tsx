@@ -18,6 +18,11 @@ import { FeaturesPage } from './pages/public/FeaturesPage';
 import { TestimonialsPage } from './pages/public/TestimonialsPage';
 import { LoginPage } from './pages/public/LoginPage';
 import { SignupPage } from './pages/public/SignupPage';
+import { AboutPage } from './pages/public/AboutPage';
+import { CareersPage } from './pages/public/CareersPage';
+import { HelpCenterPage } from './pages/public/HelpCenterPage';
+import { PrivacyPolicyPage } from './pages/public/PrivacyPolicyPage';
+import { TermsOfServicePage } from './pages/public/TermsOfServicePage';
 
 import { useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -66,6 +71,11 @@ function App() {
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/careers" element={<CareersPage />} />
+            <Route path="/help" element={<HelpCenterPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsOfServicePage />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </>
