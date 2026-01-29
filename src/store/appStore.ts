@@ -346,7 +346,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         }
     },
 
-    getProjectProfitLoss: (projectId) => {
+    getProjectProfitLoss: (_projectId) => {
         // Mock calculation
         return { income: 100000, expenses: 40000, profit: 60000 };
     },
