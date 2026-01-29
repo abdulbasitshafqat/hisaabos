@@ -2,7 +2,7 @@ import { PublicNavbar } from '@/components/layout/PublicNavbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Book, MessageCircle, FileText, Phone } from 'lucide-react';
+import { Search, Book, MessageCircle, FileText, Phone, Briefcase } from 'lucide-react';
 
 export function HelpCenterPage() {
     return (
