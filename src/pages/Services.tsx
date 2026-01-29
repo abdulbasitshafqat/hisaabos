@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Briefcase, Calendar, Plus, Users, DollarSign, Clock, CheckCircle2 } from 'lucide-react';
+import { Briefcase, Calendar, Plus, Users, Clock } from 'lucide-react';
 
 export function Services() {
     const services = [
